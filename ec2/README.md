@@ -78,4 +78,12 @@ Ensure that you have reviewed and understood the code and its implications befor
 
 Feel free to update this README file with additional information specific to your project or configuration.
 
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or a pull request in this repository.
+
+
+## Documentation
+
+[Documentation](https://hashnode.com/edit/clhktnlnk000009mrhacqfxbd)
 
