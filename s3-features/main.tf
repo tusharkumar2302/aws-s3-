@@ -1,64 +1,54 @@
-
-
 # Single bucket
-
-resource "aws_s3_bucket" "my_bucket" {
+resource "aws_s3_bucket" "my_bucket1" {
   bucket = "infrasity-s3-bucket"
   region = "us-east-1"
-  acl = "private"
+  acl    = "private"
+
   versioning {
     enabled = true
   }
 }
-
 
 # Multiple buckets
-
-resource "aws_s3_bucket" "my_buckets" {
-  count = 3
+resource "aws_s3_bucket" "my_buckets2" {
+  count  = 3
   bucket = "infrasity-s3-${count.index}"
-  acl = "private"
+  acl    = "private"
+
   versioning {
     enabled = true
   }
 }
 
-
-
-# using for each loop
-
+# Using for_each loop
 variable "bucket_names" {
-  type = set(string)
+  type    = set(string)
   default = ["infrasity1", "infrasity2"]
 }
 
-resource "aws_s3_bucket" "my_buckets" {
+resource "aws_s3_bucket" "my_buckets3" {
   for_each = var.bucket_names
-  bucket = each.value
+  bucket   = each.value
+  acl      = "private"
 
-  acl = "private"
   versioning {
     enabled = true
   }
 }
 
-
-# another loop
-resource "aws_s3_bucket" "my_buckets" {
+# Another loop
+resource "aws_s3_bucket" "my_buckets4" {
   for_each = toset(["infrasity1", "infrasity2", "infrasity3", "infrasity4", "infrasity5"])
-  bucket = each.key
-  acl = "private"
+  bucket   = each.key
+  acl      = "private"
+
   versioning {
     enabled = true
   }
 }
 
-
-#Features
-
-
+# Features
 resource "aws_s3_bucket" "infrasity_bucket" {
-  # Tag: S3 Bucket Configuration
   bucket = "infrasity123"
 
   # Enable versioning for the bucket
@@ -103,13 +93,12 @@ resource "aws_s3_bucket" "infrasity_bucket" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "example" {
-  # Tag: Bucket Lifecycle Configuration
   bucket = aws_s3_bucket.infrasity_bucket.id
 
   # Add a lifecycle rule to transition objects to the Glacier storage class after 30 days and expire them after 365 days
   rule {
-    id      = "rule-1"
-    status  = "Enabled"
+    id     = "rule-1"
+    status = "Enabled"
 
     transition {
       days          = 30
@@ -123,9 +112,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "example" {
 }
 
 resource "aws_iam_role" "replication_role" {
-  # Tag: IAM Role for Replication
-  name = "s3-replication-role"
-
+  name               = "s3-replication-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -143,7 +130,6 @@ EOF
 }
 
 resource "aws_iam_policy" "replication_policy" {
-  # Tag: IAM Policy for Replication
   name   = "s3-replication-policy"
   policy = <<EOF
 {
@@ -165,7 +151,6 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "replication_policy_attachment" {
-  # Tag: Attach Replication Policy to Role
   role       = aws_iam_role.replication_role.name
   policy_arn = aws_iam_policy.replication_policy.arn
 }

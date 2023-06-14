@@ -1,0 +1,3 @@
+module "mybucket" {
+  source = "./modules"
+}
