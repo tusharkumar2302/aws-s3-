@@ -1,7 +1,6 @@
 # Single bucket
 resource "aws_s3_bucket" "my_bucket1" {
   bucket = "infrasity-s3-bucket"
-  region = "us-east-1"
   acl    = "private"
 
   versioning {
